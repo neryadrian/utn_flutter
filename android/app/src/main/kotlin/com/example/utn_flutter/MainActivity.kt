@@ -1,4 +1,4 @@
-package com.example.utn_flutter
+package com.utnflutt
 
 import io.flutter.embedding.android.FlutterActivity
 
