@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.utnflutt"
+    namespace = "com.utnflutter"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -24,13 +24,23 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.utnflutt"
+        applicationId = "com.utnflutter"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        Properties localProperties = new Properties()
+        File file = project.rootProject.file('local.properties')
+        if (file.exists()) {
+            localProperties.load(file.newDataInputStream())
+            minSdk = localProperties.getProperty('flutter.minSdkVersion').toInteger()
+        }
+        else {
+            minSdk = flutter.minSdkVersion
+        }
+        
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled = true
     }
 
     buildTypes {
