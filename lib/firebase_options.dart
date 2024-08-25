@@ -2,7 +2,7 @@
 // ignore_for_file: type=lint
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show defaultTargetPlatform, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -16,23 +16,9 @@ import 'package:flutter/foundation.dart'
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    if (kIsWeb) {
-      return web;
-    }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
-      case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.macOS:
-        return macos;
-      case TargetPlatform.windows:
-        return windows;
-      case TargetPlatform.linux:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -40,47 +26,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDwM5kno5E_jVUVTrXHfJbn4jqVFuCvcCY',
-    appId: '1:781204503804:web:35d35a5d8220ded4bdab79',
-    messagingSenderId: '781204503804',
-    projectId: 'utnflutter',
-    authDomain: 'utnflutter.firebaseapp.com',
-    storageBucket: 'utnflutter.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA_tEv7Pxokp3dE7K8DgZrcAvT37iDfs-s',
     appId: '1:781204503804:android:863210820ca2f153bdab79',
     messagingSenderId: '781204503804',
     projectId: 'utnflutter',
-    storageBucket: 'utnflutter.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD1MB3mUolYObVN2_UWo_YfEmS14b7uexI',
-    appId: '1:781204503804:ios:7e933387907ce4d8bdab79',
-    messagingSenderId: '781204503804',
-    projectId: 'utnflutter',
-    storageBucket: 'utnflutter.appspot.com',
-    iosBundleId: 'com.example.utnFlutter',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD1MB3mUolYObVN2_UWo_YfEmS14b7uexI',
-    appId: '1:781204503804:ios:7e933387907ce4d8bdab79',
-    messagingSenderId: '781204503804',
-    projectId: 'utnflutter',
-    storageBucket: 'utnflutter.appspot.com',
-    iosBundleId: 'com.example.utnFlutter',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDwM5kno5E_jVUVTrXHfJbn4jqVFuCvcCY',
-    appId: '1:781204503804:web:994363273a874d57bdab79',
-    messagingSenderId: '781204503804',
-    projectId: 'utnflutter',
-    authDomain: 'utnflutter.firebaseapp.com',
     storageBucket: 'utnflutter.appspot.com',
   );
 }
