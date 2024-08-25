@@ -12,11 +12,7 @@
         "lib/firebase_options.dart": {
           "projectId": "utnflutter",
           "configurations": {
-            "android": "1:781204503804:android:863210820ca2f153bdab79",
-            "ios": "1:781204503804:ios:7e933387907ce4d8bdab79",
-            "macos": "1:781204503804:ios:7e933387907ce4d8bdab79",
-            "web": "1:781204503804:web:35d35a5d8220ded4bdab79",
-            "windows": "1:781204503804:web:994363273a874d57bdab79"
+            "android": "1:781204503804:android:863210820ca2f153bdab79"
           }
         }
       }
