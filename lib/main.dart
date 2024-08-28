@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:utn_flutter/components/auth_frame.dart';
 
 import 'firebase_options.dart';
 
@@ -40,43 +40,21 @@ class MainApp extends StatelessWidget {
         body: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [
-            TextButton(
-              onPressed: () => {signInWithGoogle()},
-              child: const Text('SignIn'),
+            AuthFrame(),
+            const Text('List'),
+            const TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Symbol'),
             ),
             TextButton(
-              onPressed: () => {signOutWithGoogle()},
-              child: const Text('SingOut'),
+              onPressed: () {
+                print('Add symbol pressed');
+              },
+              child: const Text('Add symbol'),
             ),
-            const Text('Hello World'),
           ],
         ),
       ),
     );
   }
-}
-
-Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
-
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-  // Once signed in, return the UserCredential
-  final UserCredential signInResult =
-      await FirebaseAuth.instance.signInWithCredential(credential);
-  print('SignInResult:' + signInResult.toString());
-  return signInResult;
-}
-
-Future<void> signOutWithGoogle() async {
-  FirebaseAuth.instance.signOut();
 }
