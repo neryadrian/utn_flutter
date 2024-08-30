@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthFrame extends StatefulWidget {
+  const AuthFrame({super.key});
+
   @override
   State<StatefulWidget> createState() => _AuthFrameState();
 }
