@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:utn_flutter/components/auth_frame.dart';
+import 'package:utn_flutter/components/symbol_add.dart';
 import 'package:utn_flutter/components/symbols_list.dart';
 
 import 'firebase_options.dart';
@@ -40,20 +41,10 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: ListView(
           padding: const EdgeInsets.all(8.0),
-          children: [
-            const AuthFrame(),
-            const Text('List'),
-            const TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Symbol'),
-            ),
-            TextButton(
-              onPressed: () {
-                print('Add symbol pressed');
-              },
-              child: const Text('Add symbol'),
-            ),
-            const SymbolsList(),
+          children: const [
+            AuthFrame(),
+            SymbolAdd(),
+            SymbolsList(),
           ],
         ),
       ),
