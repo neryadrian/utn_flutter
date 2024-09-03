@@ -9,13 +9,13 @@ class SymbolsList extends StatefulWidget {
 }
 
 class _SymbolsListState extends State<SymbolsList> {
-  final Stream<QuerySnapshot> _symbolsStream =
-      FirebaseFirestore.instance.collection('symbols').snapshots();
+  final CollectionReference<Map<String, dynamic>> _symbolsCollection =
+      FirebaseFirestore.instance.collection('symbols');
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: _symbolsStream,
+        stream: _symbolsCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Text('Something wrong');
@@ -30,8 +30,28 @@ class _SymbolsListState extends State<SymbolsList> {
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               Map<String, dynamic> data =
                   document.data()! as Map<String, dynamic>;
+              final String name = data['name'] ?? '-';
+
               return ListTile(
-                title: Text(data['name']),
+                title: Text(
+                  name.toUpperCase(),
+                  style: TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    _symbolsCollection
+                        .doc(document.id)
+                        .delete()
+                        .then((value) => print("Symbol deleted"))
+                        .catchError((error) =>
+                            print("Failed to delete symbol: $error"));
+                  },
+                  icon: const Icon(Icons.delete),
+                  color: Colors.red,
+                ),
               );
             }).toList(),
           );

@@ -57,7 +57,7 @@ class _SymbolAddState extends State<SymbolAdd> {
               print('Selected symbol: ' + symbol);
               _symbolsCollection
                   .add({'name': symbol})
-                  .then((value) => print("Symbol Added"))
+                  .then((value) => print("Symbol added"))
                   .catchError((error) => print("Failed to add symbol: $error"));
               controller.closeView(symbol);
             },

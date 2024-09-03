@@ -43,8 +43,8 @@ class MainApp extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           children: const [
             AuthFrame(),
-            SymbolAdd(),
             SymbolsList(),
+            SymbolAdd(),
           ],
         ),
       ),
