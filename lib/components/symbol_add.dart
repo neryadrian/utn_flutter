@@ -12,8 +12,9 @@ class _SymbolAddState extends State<SymbolAdd> {
   final Stream<QuerySnapshot> _symbolsStream =
       FirebaseFirestore.instance.collection('symbols').snapshots();
 
-  List<String> _symbols = ['btcusdt', 'ethusdt', 'bnbusdt'];
-  List<String> _filteredSymbols = [];
+  List<String> _symbols = ['btcusdt', 'ethusdt', 'bnbusdt', 'xrpusdt', 'dogeusdt', 'shibusdt'];
+
+  final int _maxLength = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class _SymbolAddState extends State<SymbolAdd> {
         List<String> filteredSymbols = _symbols.where((String s) {
           return s.toLowerCase().contains(controller.text);
         }).toList();
+        filteredSymbols = filteredSymbols.sublist(0, filteredSymbols.length > _maxLength ? _maxLength : filteredSymbols.length);
         return filteredSymbols.map((String symbol) {
           return ListTile(
             title: Text(symbol),
