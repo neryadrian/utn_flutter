@@ -27,14 +27,23 @@ class _SymbolAddState extends State<SymbolAdd> {
           onChanged: (_) {
             controller.openView();
           },
+          onSubmitted: (String submitted) {
+            print('Submitted: ' + submitted);
+          },
           leading: const Icon(Icons.search),
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return _symbols.map((String symbol) {
+        List<String> filteredSymbols = _symbols.where((String s) {
+          return s.toLowerCase().contains(controller.text);
+        }).toList();
+        return filteredSymbols.map((String symbol) {
           return ListTile(
             title: Text(symbol),
-            onTap: () { print(symbol); controller.closeView(null); },
+            onTap: () {
+              print('Selected symbol: ' + symbol);
+              controller.closeView(symbol);
+            },
           );
         });
       },
