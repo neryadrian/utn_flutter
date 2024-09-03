@@ -9,10 +9,17 @@ class SymbolAdd extends StatefulWidget {
 }
 
 class _SymbolAddState extends State<SymbolAdd> {
-  final Stream<QuerySnapshot> _symbolsStream =
-      FirebaseFirestore.instance.collection('symbols').snapshots();
+  final CollectionReference<Map<String, dynamic>> _symbolsCollection =
+      FirebaseFirestore.instance.collection('symbols');
 
-  List<String> _symbols = ['btcusdt', 'ethusdt', 'bnbusdt', 'xrpusdt', 'dogeusdt', 'shibusdt'];
+  List<String> _symbols = [
+    'btcusdt',
+    'ethusdt',
+    'bnbusdt',
+    'xrpusdt',
+    'dogeusdt',
+    'shibusdt'
+  ];
 
   final int _maxLength = 3;
 
@@ -38,12 +45,20 @@ class _SymbolAddState extends State<SymbolAdd> {
         List<String> filteredSymbols = _symbols.where((String s) {
           return s.toLowerCase().contains(controller.text);
         }).toList();
-        filteredSymbols = filteredSymbols.sublist(0, filteredSymbols.length > _maxLength ? _maxLength : filteredSymbols.length);
+        filteredSymbols = filteredSymbols.sublist(
+            0,
+            filteredSymbols.length > _maxLength
+                ? _maxLength
+                : filteredSymbols.length);
         return filteredSymbols.map((String symbol) {
           return ListTile(
             title: Text(symbol),
             onTap: () {
               print('Selected symbol: ' + symbol);
+              _symbolsCollection
+                  .add({'name': symbol})
+                  .then((value) => print("Symbol Added"))
+                  .catchError((error) => print("Failed to add symbol: $error"));
               controller.closeView(symbol);
             },
           );

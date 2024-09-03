@@ -31,7 +31,7 @@ class _SymbolsListState extends State<SymbolsList> {
               Map<String, dynamic> data =
                   document.data()! as Map<String, dynamic>;
               return ListTile(
-                title: Text(data['title']),
+                title: Text(data['name']),
               );
             }).toList(),
           );

@@ -1,3 +1,3 @@
-class Symbol {
+class SymbolModel {
   late String name;
 }
