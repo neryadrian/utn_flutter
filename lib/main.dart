@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:utn_flutter/components/auth_frame.dart';
 import 'package:utn_flutter/components/symbol_add.dart';
 import 'package:utn_flutter/components/symbols_list.dart';
+import 'package:utn_flutter/pages/login.dart';
 
 import 'firebase_options.dart';
 
@@ -37,17 +38,22 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.all(8.0),
-          children: const [
-            AuthFrame(),
-            SymbolsList(),
-            SymbolAdd(),
-          ],
-        ),
-      ),
+    return const MaterialApp(
+      title: 'UTN Flutter',
+      home: Login(),
     );
   }
 }
+
+/*
+Scaffold(
+  body: ListView(
+    padding: const EdgeInsets.all(8.0),
+    children: const [
+      AuthFrame(),
+      SymbolsList(),
+      SymbolAdd(),
+    ],
+  ),
+),
+*/
