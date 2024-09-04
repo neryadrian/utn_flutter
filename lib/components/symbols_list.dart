@@ -35,11 +35,14 @@ class _SymbolsListState extends State<SymbolsList> {
               return ListTile(
                 title: Text(
                   name.toUpperCase(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                onTap: () {
+                  print('Open chart');
+                },
                 trailing: IconButton(
                   onPressed: () {
                     _symbolsCollection

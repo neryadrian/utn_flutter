@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:utn_flutter/models/simple_ticker_model.dart';
 
 class SymbolAdd extends StatefulWidget {
   const SymbolAdd({super.key});
@@ -12,16 +16,37 @@ class _SymbolAddState extends State<SymbolAdd> {
   final CollectionReference<Map<String, dynamic>> _symbolsCollection =
       FirebaseFirestore.instance.collection('symbols');
 
-  List<String> _symbols = [
-    'btcusdt',
-    'ethusdt',
-    'bnbusdt',
-    'xrpusdt',
-    'dogeusdt',
-    'shibusdt'
-  ];
+  List<String> _symbols = [];
 
   final int _maxLength = 3;
+
+  Future<List<SimpleTicker>> getPrices() async {
+    final response = await http
+        .get(Uri.parse('https://api.binance.com/api/v3/ticker/price'));
+
+    if (response.statusCode < 300) {
+      final List decoded = jsonDecode(response.body);
+      if (decoded is List) {
+        return decoded.map((d) => SimpleTicker.fromJson(d)).toList();
+      }
+    }
+    return [];
+  }
+
+  @override
+  initState() {
+    getPrices().then((prices) {
+      print('Prices: ' + prices.toString());
+      setState(() {
+        _symbols = prices.map((p) {
+          return p.symbol;
+        }).toList();
+        print('Symbols: ' + _symbols.toString());
+      });
+    }).catchError((error) {
+      print('Error: ' + error.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
