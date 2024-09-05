@@ -1,63 +1,58 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:utn_flutter/models/simple_ticker_model.dart';
 
-class SymbolsList extends StatefulWidget {
-  const SymbolsList({super.key});
+class SymbolsList extends StatelessWidget {
+  final bool hasError;
+  final bool waiting;
+  List<SimpleTicker> prices;
+  final void Function(String name)? onPressed;
 
-  @override
-  State<StatefulWidget> createState() => _SymbolsListState();
-}
-
-class _SymbolsListState extends State<SymbolsList> {
-  final CollectionReference<Map<String, dynamic>> _symbolsCollection =
-      FirebaseFirestore.instance.collection('symbols');
+  SymbolsList(
+      {super.key,
+      required this.prices,
+      this.hasError = false,
+      this.waiting = false,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: _symbolsCollection.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Text('Something wrong');
-          }
+    if (hasError) {
+      return const Text('Something wrong');
+    }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text('Loading...');
-          }
+    if (waiting) {
+      return const Text('Loading...');
+    }
 
-          return ListView(
-            shrinkWrap: true,
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              Map<String, dynamic> data =
-                  document.data()! as Map<String, dynamic>;
-              final String name = data['name'] ?? '-';
-
-              return ListTile(
-                title: Text(
-                  name.toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.orange,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onTap: () {
-                  print('Open chart');
-                },
-                trailing: IconButton(
-                  onPressed: () {
-                    _symbolsCollection
-                        .doc(document.id)
-                        .delete()
-                        .then((value) => print("Symbol deleted"))
-                        .catchError((error) =>
-                            print("Failed to delete symbol: $error"));
-                  },
-                  icon: const Icon(Icons.delete),
-                  color: Colors.red,
-                ),
-              );
-            }).toList(),
-          );
-        });
+    return ListView(
+      shrinkWrap: true,
+      children: prices.map((SimpleTicker price) {
+        return ListTile(
+          title: Row(children: [
+            Text(
+              price.symbol.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.orange,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              price.price.toString(),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ]),
+          trailing: IconButton(
+            onPressed: () {
+              if (onPressed != null) onPressed!(price.symbol);
+            },
+            icon: const Icon(Icons.delete),
+            color: Colors.red,
+          ),
+        );
+      }).toList(),
+    );
   }
 }
