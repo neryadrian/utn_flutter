@@ -26,6 +26,7 @@ class SymbolsList extends StatelessWidget {
 
     return ListView(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: prices.map((SimpleTicker price) {
         return ListTile(
           title: Row(children: [
