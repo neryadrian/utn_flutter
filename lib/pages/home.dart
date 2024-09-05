@@ -33,17 +33,20 @@ class _Home extends State<Home> {
   bool hasError = false;
   bool waiting = true;
 
+  StreamSubscription? _userSubscription;
+  StreamSubscription? _dataSubscription;
+
   @override
   initState() {
     // Auth listener
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    _userSubscription = FirebaseAuth.instance.authStateChanges().listen((User? user) {
       setState(() {
         _user = user;
       });
     });
 
     // Firestore listener
-    _symbolsCollection.snapshots().listen((QuerySnapshot snapshot) {
+    _dataSubscription = _symbolsCollection.snapshots().listen((QuerySnapshot snapshot) {
       List<_SymbolDocument> newSymbols = [];
       for (final DocumentSnapshot document in snapshot.docs) {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
@@ -56,6 +59,13 @@ class _Home extends State<Home> {
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if(_userSubscription != null) _userSubscription!.cancel();
+    if(_dataSubscription != null) _dataSubscription!.cancel();
+    super.dispose();
   }
 
   void _setSymbols(List<_SymbolDocument> symbols) async {
