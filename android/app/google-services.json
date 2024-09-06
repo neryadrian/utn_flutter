@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "781204503804",
+    "project_id": "utnflutter",
+    "storage_bucket": "utnflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781204503804:android:a994b3f263d1cb4ebdab79",
+        "android_client_info": {
+          "package_name": "com.utnflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_tEv7Pxokp3dE7K8DgZrcAvT37iDfs-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
