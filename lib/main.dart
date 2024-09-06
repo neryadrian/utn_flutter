@@ -26,20 +26,7 @@ class MainApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,
-      home: Login(),
+      home: const Login(),
     );
   }
 }
-
-/*
-Scaffold(
-  body: ListView(
-    padding: const EdgeInsets.all(8.0),
-    children: const [
-      AuthFrame(),
-      SymbolsList(),
-      SymbolAdd(),
-    ],
-  ),
-),
-*/

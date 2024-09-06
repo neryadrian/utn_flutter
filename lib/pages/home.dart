@@ -39,14 +39,16 @@ class _Home extends State<Home> {
   @override
   initState() {
     // Auth listener
-    _userSubscription = FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    _userSubscription =
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
       setState(() {
         _user = user;
       });
     });
 
     // Firestore listener
-    _dataSubscription = _symbolsCollection.snapshots().listen((QuerySnapshot snapshot) {
+    _dataSubscription =
+        _symbolsCollection.snapshots().listen((QuerySnapshot snapshot) {
       List<_SymbolDocument> newSymbols = [];
       for (final DocumentSnapshot document in snapshot.docs) {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
@@ -63,8 +65,8 @@ class _Home extends State<Home> {
 
   @override
   void dispose() {
-    if(_userSubscription != null) _userSubscription!.cancel();
-    if(_dataSubscription != null) _dataSubscription!.cancel();
+    if (_userSubscription != null) _userSubscription!.cancel();
+    if (_dataSubscription != null) _dataSubscription!.cancel();
     super.dispose();
   }
 
@@ -85,9 +87,7 @@ class _Home extends State<Home> {
   void _deleteSymbol(String name) {
     for (final document in _symbols) {
       if (document.name.toLowerCase() == name.toLowerCase()) {
-        _symbolsCollection
-            .doc(document.id)
-            .delete();
+        _symbolsCollection.doc(document.id).delete();
       }
     }
   }
@@ -137,6 +137,17 @@ class _Home extends State<Home> {
               SymbolsList(
                 prices: _prices,
                 onPressed: _deleteSymbol,
+              ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: const Center(
+                  child: Text(
+                    'Pull down to refresh',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
               const SymbolAdd(),
             ],

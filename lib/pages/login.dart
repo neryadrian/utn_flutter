@@ -53,17 +53,19 @@ class _Login extends State<Login> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const FractionallySizedBox(
-              widthFactor: 0.6,
-              child: Text(
-                'Crypto Watchlist',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.orange,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40),
-              ),
-            ),
+            FractionallySizedBox(
+                widthFactor: 0.6,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text(
+                    'Crypto Watchlist',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40),
+                  ),
+                )),
             if (!_loading)
               SignInButton(
                 Buttons.Google,

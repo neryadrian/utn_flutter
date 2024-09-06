@@ -46,6 +46,7 @@ class _SymbolAddState extends State<SymbolAdd> {
     }).catchError((error) {
       print('Error: ' + error.toString());
     });
+    super.initState();
   }
 
   @override
