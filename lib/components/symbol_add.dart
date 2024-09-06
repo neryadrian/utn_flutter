@@ -18,7 +18,7 @@ class _SymbolAddState extends State<SymbolAdd> {
 
   List<String> _symbols = [];
 
-  final int _maxLength = 3;
+  final int _maxLength = 10;
 
   Future<List<SimpleTicker>> getPrices() async {
     final response = await http
@@ -70,24 +70,38 @@ class _SymbolAddState extends State<SymbolAdd> {
         List<String> filteredSymbols = _symbols.where((String s) {
           return s.toLowerCase().contains(controller.text);
         }).toList();
+
+        int lengthDifference = filteredSymbols.length;
+
         filteredSymbols = filteredSymbols.sublist(
             0,
             filteredSymbols.length > _maxLength
                 ? _maxLength
                 : filteredSymbols.length);
-        return filteredSymbols.map((String symbol) {
-          return ListTile(
-            title: Text(symbol),
-            onTap: () {
-              print('Selected symbol: ' + symbol);
-              _symbolsCollection
-                  .add({'name': symbol})
-                  .then((value) => print("Symbol added"))
-                  .catchError((error) => print("Failed to add symbol: $error"));
-              controller.closeView(symbol);
-            },
-          );
-        });
+
+        lengthDifference = lengthDifference - filteredSymbols.length;
+
+        return [
+          ...filteredSymbols.map((String symbol) {
+            return ListTile(
+              title: Text(symbol),
+              onTap: () {
+                print('Selected symbol: ' + symbol);
+                _symbolsCollection
+                    .add({'name': symbol})
+                    .then((value) => print("Symbol added"))
+                    .catchError(
+                        (error) => print("Failed to add symbol: $error"));
+                controller.closeView(symbol);
+              },
+            );
+          }),
+          ...[
+            if(lengthDifference > 0) ListTile(
+              title: Text('...$lengthDifference more elements'),
+            )
+          ]
+        ];
       },
     );
   }
