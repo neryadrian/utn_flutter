@@ -12,8 +12,13 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  bool _loading = false;
 
-  Future<User?> _signInWithGoogle(BuildContext buildContext) async {
+  Future<void> _signInWithGoogle(BuildContext buildContext) async {
+    setState(() {
+      _loading = true;
+    });
+
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -34,8 +39,11 @@ class _Login extends State<Login> {
     if (signInResult.user != null) {
       Navigator.push(
           buildContext, MaterialPageRoute(builder: (context) => const Home()));
-      return signInResult.user!;
     }
+
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
@@ -45,13 +53,27 @@ class _Login extends State<Login> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SignInButton(
-              Buttons.Google,
-              text: "Sign in with Google",
-              onPressed: () {
-                _signInWithGoogle(context);
-              },
+            const FractionallySizedBox(
+              widthFactor: 0.6,
+              child: Text(
+                'Crypto Watchlist',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40),
+              ),
             ),
+            if (!_loading)
+              SignInButton(
+                Buttons.Google,
+                text: "Sign in with Google",
+                onPressed: () {
+                  _signInWithGoogle(context);
+                },
+              )
+            else
+              const CircularProgressIndicator(),
           ],
         ),
       ),
